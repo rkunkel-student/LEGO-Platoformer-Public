@@ -224,7 +224,9 @@ Enable Use UI if you want the counter to be visible to the player.
 
 ### Change the mood
 
-Download 
+Customize the atmosphere of the Microgame with visual and audio changes.
+
+Download the assets: 
 
 * Moody Tunes - LEGO® Microgame Add-ons
 * Moody Skies - LEGO® Microgame Add-ons
@@ -302,7 +304,11 @@ This lesson doesn't really explain how to create a Player MiniFig. It shows you 
 
 ### Create a locked area 
 
-..
+Leave your players some loot — or an interesting surprise!
+
+By default, the Target property is set to Connected Actions. This means that the trigger will activate any action bricks connected to an object that is also parent to the Trigger Block.
+
+Set the Target property to Specific Actions, using the drop-down menu. Select the grey arrow to expand the Specific Actions foldout that appears. This allows the developer to target any action block that is in the scene.
 
 ### Build your own enemy
 
@@ -310,13 +316,23 @@ This lesson suggestion that you build the enemy out of bricks then add behavior 
 
 It seems better suited for piecing together an object with mutiple polished models created in a 3rd party program. [BrickLink Studio 2.0](https://www.bricklink.com/v3/studio/download.page)
 
+It also seems better suited to then use the behavior blocks on these imported models.
+
 ### Use the Behavior Scripts 
 
 Create a custom enemy using behaviours without Behaviour Bricks!
 
+When I first started using the project I assumed you needed to attached a behavior block to get the intended behavior. This is not the case!
+
+Drag your choice of behaviour script from the Project window onto the intended LEGO brick in the scene view or hierarchy. Object **must** be a LEGO brick. 
+
+* **Assets** > **LEGO** > **Scripts** > **LEGO Behaviours**
+
 ### Customize the menus 
 
-..
+Customize the menu screens in the Microgame using sticker assets.
+
+**Canvas** > **Button** 
 
 ### Create and import new models
 
@@ -377,6 +393,74 @@ In the top menu, go to **File** > **Export As**… > **Export as LDraw**
 
 Explore level design basics as you extend your LEGO® Microgame with a new level.
 
+Example Scenes:
+
+* Assets > LEGO > Scenes > **Cannonball bingo**
+
+<p align="center">
+  <img src="/../master/Screenshots/Cannonball-Bingo.png" />
+</p>
+
+* Assets > LEGO > Scenes > **Pandamonium**
+
+<p align="center">
+  <img src="/../master/Screenshots/Pandamonium.png" />
+</p>
+
+* Assets > LEGO > Scenes > **Pirate Plunder**
+
+<p align="center">
+  <img src="/../master/Screenshots/Pirate-Plunder.png" />
+</p>
+
+* Assets > LEGO > Scenes > **The Evil Machine**
+
+<p align="center">
+  <img src="/../master/Screenshots/The-Evil-Machine.png" />
+</p>
+
+* Assets > LEGO > Scenes > **Playground** 
+
+<p align="center">
+  <img src="/../master/Screenshots/Playground.png" />
+</p>
+
+* Assets > AddOns > MgLEGO Danger Zone > Scenes > **Danger Zone**
+
+<p align="center">
+  <img src="/../master/Screenshots/Danger-Zone.png" />
+</p>
+
+* Assets > AddOns > MgLEGO Happy Halloween > Scenes > **Happy Halloween**
+
+<p align="center">
+  <img src="/../master/Screenshots/Happy-Halloween.png" />
+</p>
+
+* Assets > AddOns > MgLEGO Knights Kingdom > Scenes > **Knights Kingdom**
+
+<p align="center">
+  <img src="/../master/Screenshots/Knights-Kingdom.png" />
+</p>
+
+* Assets > AddOns > MgLEGO Ninjago > Scenes > **Ninjago Master Wus Training Course**
+
+<p align="center">
+  <img src="/../master/Screenshots/Training-Course.png" />
+</p>
+
+* Assets > AddOns > MgLEGO Ninjago > Scenes > **Ninjago Skybound Rescue**
+
+<p align="center">
+  <img src="/../master/Screenshots/Skybound-Rescue.png" />
+</p>
+
+* Assets > AddOns > MgLEGO Ninjago > Scenes > **Ninjago Spinjitzu Endurance Test**
+
+<p align="center">
+  <img src="/../master/Screenshots/Endurance-Test.png" />
+</p>
+
 **Layout and goals**
 
 It’s a good idea to create the space for your level informed by the goals for the player.   
@@ -435,20 +519,57 @@ For example:
 
 ### Example: Mini obstacle course
 
-[Lesson](https://learn.unity.com/tutorial/lego-mod-upgrade-your-levels?uv=2019.4&projectId=5f3cfedbedbc2a002093abe3#5f8076b5edbc2a731ee276cc)
+Explore level design basics as you extend your LEGO® Microgame with a new level.
 
-**Planning**
+* **Planning**
+* **First prototype**
+* **Evaluation and iteration**
 
-**First prototype**
-
-**Evaluation and iteration**
+View [YouTube Video](https://youtu.be/T1aV8rAQyQI) of what I created following the tutorial up to this point.
 
 ### Create new control inputs 
 
 Explore how to use an Input Trigger Behaviour Brick to trigger a sequence of actions in your Microgame.
 
+See **Pirate Plunder** for more details.
+
 ### Animate Santa using scripts 
 
+Start by downloading the free Unity Store Asset [Santa's Brickshop - LEGO® Microgame Add-Ons](https://assetstore.unity.com/packages/3d/santa-s-brickshop-lego-microgame-add-ons-183389?_ga=2.105563905.320734402.1607319684-994701817.1602760772)
+
+<p align="center">
+  <img src="/../master/Screenshots/Santas-Brickshop.png" />
+</p>
+
+After Importing the package, In the top menu, go to **Window** > **Animation** > **Animation**. This shows the available animations. 
+
+After making a backup, modify the pickup action script.
+```csharp
+// line 5
+using Unity.LEGO.Minifig;
+
+// line 154, inside the if-block
+
+var minifigController = FindObjectOfType<MinifigController>();
+ 
+if (minifigController) {
+    //Disable player input to the Minifig so that its animation won't be interrupted
+    minifigController.SetInputEnabled(false);
+ 
+    //Play the Minifig animation
+    minifigController.PlaySpecialAnimation(MinifigController.SpecialAnimation.Spin, null, EnableMinifigInput);
+ 
+    //Re-enable player input to the Minifig
+    void EnableMinifigInput(bool b) {
+        minifigController.SetInputEnabled(true);
+    }
+ 
+}
+``` 
+
+One critique, this section does not actually cover how to create the animatin, just how to invoke them through scripts. Still useful! Just not what I expected. 
+
+You completed this project! - LEGO® Microgame
 
 ## Final Notes 
 
@@ -456,9 +577,8 @@ Review [Creating with LEGO® Tools](https://learn.unity.com/tutorial/creating-wi
 
 Download the Behaviour Brick Manual to explore the range of bricks available in the LEGO® Microgame and ideas for how to use them!
 
-Explore the FPS Mod: Add a new level to your game flow, and create a branching game flow
 
-### LEGO Microgame Add-ons
+### Recommended LEGO Microgame Add-ons
 
 * Danger Zone 
 * Happy Halloween
@@ -466,7 +586,7 @@ Explore the FPS Mod: Add a new level to your game flow, and create a branching g
 * LEGO NINJAGO
 * Moody Skies
 * Moody Tunes
-* Stikers 
+* Stickers 
 
 
 ### Behavior Bricks
@@ -475,6 +595,8 @@ For simple things, these are a good shortcut. Add behaviour scripts without bric
 
 
 ### If you’re struggling for ideas
+
+Explore the [FPS Mod: Add a new level to your game flow](https://learn.unity.com/tutorial/fps-mod-add-a-new-level-to-your-game-flow?projectId=5d9c91a4edbc2a03209169ab#), and create a branching game flow
 
 Consider:
 
@@ -492,12 +614,3 @@ Consider:
 * Create different enemies for different parts of your level
 
 * Create a custom enemy model, that you can give different behaviours without using Behaviour Bricks
-
-
-Example Scenes:
-
-* Assets > LEGO > Scenes > **Cannonball bingo**
-* Assets > LEGO > Scenes > **Pandamonium**
-* Assets > LEGO > Scenes > **Pirate Plunder**
-* Assets > LEGO > Scenes > **The Evil Machine**
-* Assets > LEGO > Scenes > **Playground** 
